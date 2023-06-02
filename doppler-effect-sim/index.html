@@ -54,7 +54,7 @@
                 <div class="box">
                     FPS: <span id="fps">60</span> &nbsp;
 
-                    <input type="button" style="width: 20px;" value='⏸' id="toggleTimeBtn">&nbsp;&nbsp;
+                    <input type="button" style="width: 20px;" value='⏵︎' id="toggleTimeBtn">&nbsp;&nbsp;
                     <span style="width: 110px; display: inline-block;">Time: <span id="time">0</span> s</span> &nbsp;
 
                     <input type="number" style="width: 60px;" id="setTime" step="any" placeholder="s">
@@ -63,14 +63,14 @@
                     <input type="number" style="width: 60px;" id="stepTime" step="any" placeholder="s">
                     <input type="button" value="Step" id="stepTimeBtn">&nbsp;&nbsp;&nbsp;
 
-                    Zoom (<span id="zoomTxt">1</span>x):
+                    Zoom (<span id="zoomTxt">5</span>x):
                     <input type="range" style="width: 70px;" id="zoom" min="1" max="9" step="1" value="1">&nbsp;&nbsp;
                     Vol. Emphasis:
                     <input type="range" style="width: 70px;" id="volumeEmphasis" min="1" max="10" step="1"
                         value="6">&nbsp;&nbsp;
 
                     <span style="width: 140px; display: inline-block; text-align: right;"> Wave Mult. (<span
-                            id="waveMultTxt">1/4</span>):</span>
+                            id="waveMultTxt">1/40</span>):</span>
                     <input type="range" style="width: 70px;" id="waveMultiplier" min="0" max="9" step="1"
                         value="2">&nbsp;&nbsp;
 
@@ -88,26 +88,26 @@
                         <h3>Simulation Parameters</h3>
                         <form id="paramsForm">
                             <span>Source Frequency: </span>
-                            <input type="number" class="wide" id="freqS" min="1" placeholder="Hz" required><br><br>
+                            <input type="number" class="wide" id="freqS" min="1" placeholder="Hz" value="400"required><br><br>
 
                             <span>Source Power: </span>
-                            <input type="number" class="wide" id="powerS" min="1" placeholder="W" required><br><br>
+                            <input type="number" class="wide" id="powerS" min="1" placeholder="W" value="1000" required><br><br>
 
                             <span>Source Position: </span>
-                            <input type="number" id="xS" step="any" placeholder="x m" required>
-                            <input type="number" id="yS" step="any" placeholder="y m" required><br><br>
+                            <input type="number" id="xS" step="any" placeholder="x m" value="-10" required>
+                            <input type="number" id="yS" step="any" placeholder="y m" value="-5" required><br><br>
 
                             <span>Source Velocity: </span>
-                            <input type="number" id="vxS" step="any" placeholder="x m/s" required>
-                            <input type="number" id="vyS" step="any" placeholder="y m/s" required><br><br>
+                            <input type="number" id="vxS" step="any" placeholder="x m/s" value="20" required>
+                            <input type="number" id="vyS" step="any" placeholder="y m/s" value="3" required><br><br>
 
                             <span>Observer Position: </span>
-                            <input type="number" id="xO" step="any" placeholder="x m" required>
-                            <input type="number" id="yO" step="any" placeholder="y m" required><br><br>
+                            <input type="number" id="xO" step="any" placeholder="x m" value="0" required>
+                            <input type="number" id="yO" step="any" placeholder="y m" value="0" required><br><br>
 
                             <span>Observer Velocity: </span>
-                            <input type="number" id="vxO" step="any" placeholder="x m/s" required>
-                            <input type="number" id="vyO" step="any" placeholder="y m/s" required><br><br>
+                            <input type="number" id="vxO" step="any" placeholder="x m/s" value="-2" required>
+                            <input type="number" id="vyO" step="any" placeholder="y m/s" value="0" required><br><br>
 
                             <span>Speed of Sound: </span>
                             <input type="number" class="wide" id="vM" min="1" step="any" placeholder="m/s" value="340.3"

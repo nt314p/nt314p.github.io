@@ -10,13 +10,6 @@ window.onload = () => {
     canvas = document.getElementById('mainCanvas'); // initialize canvas
     ctx = canvas.getContext('2d');
 
-    audioCtx = new AudioContext(); // initialize audio
-    oscillator = audioCtx.createOscillator();
-    gainNode = audioCtx.createGain();
-    oscillator.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-    gainNode.gain.value = 0;
-
     // initialize option inputs
     initializeEvent("paramsForm", "submit", submitParams);
     initializeEvent("zoom", "input", updateZoom);
@@ -28,10 +21,19 @@ window.onload = () => {
     initializeEvent("stepTimeBtn", "click", stepTime);
 
     resetSim();
-    oscillator.start(0);
     window.requestAnimationFrame(draw);
 };
 
+function initializeAudio() {
+    if (audioCtx != undefined) return;
+    audioCtx = new AudioContext(); // initialize audio
+    oscillator = audioCtx.createOscillator();
+    gainNode = audioCtx.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    gainNode.gain.value = 0;
+    oscillator.start(0);
+}
 
 class Point {
     constructor(x, y) {
@@ -108,7 +110,7 @@ class Wave extends Point {
 }
 
 var freqS, vM, maxDecibels, observer, source, powerS, zoom, time0, time, vRel, volumeEmphasis, waveMultiplier;
-var step = false; // is the simulation running, or in step mode (paused)
+var step = true; // is the simulation running, or in step mode (paused)
 var arrDT = []; // array for fps calculation
 var waves = [];
 var globalOffset = new Point(0, 0); // global offset enables changing camera mode
@@ -174,10 +176,11 @@ function draw() {
 
     let sourceI = intensity(powerS, distance(time));
     let dB = intensityToDecibels(sourceI);
+    console.log(maxDecibels);
     let gain = dB / maxDecibels; // gain is calculated as a ratio of dB values
 
     let fDoppler = doppler(freqS, vM, vRel);
-    updateSound(fDoppler, gain);
+    updateSound(fDoppler, step ? 0: gain);
 
     for (var i = 0; i < waves.length; ++i) {
         if (waves[i].isAlive(time)) {
@@ -234,6 +237,7 @@ function relativeVelocity(t) {
 function maximumDecibels() {
     // minT found by solving for d'(t) = 0 to find minimum distance
     let minT = dotP() / (dVX() * dVX() + dVY() * dVY());
+    if (isNaN(minT)) minT = 0;
     let minDist = Math.max(0.1, distance(minT)); // avoid minDist = 0
     return intensityToDecibels(intensity(powerS, minDist));
 }
@@ -244,6 +248,7 @@ function submitParams(event) {
 }
 
 function updateSound(frequency, gain) {
+    if (oscillator == undefined) return;
     oscillator.frequency.value = frequency;
     setAbsoluteGain(gain);
 }
@@ -274,6 +279,7 @@ function toggleTime() {
     step = button.value === "⏸"; // currently paused
     if (!step) setTime(time);
     button.value = (button.value === "⏸") ? "⏵︎" : "⏸";
+    initializeAudio();
 }
 
 function setCustTime() {
